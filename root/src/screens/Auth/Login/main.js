@@ -40,6 +40,19 @@ eventFormLogin.addEventListener("submit", (event) => {
       //   console.log(userCredential.accessToken);
       //   localStorage.setItem("accessToken", JSON.stringify(user.accessToken));
 
+      if (localStorage.getItem("accessToken") == null) {
+        localStorage.setItem(
+          "accessToken",
+          JSON.stringify(userCredential.accessToken)
+        );
+      } else {
+        localStorage.removeItem("accessToken");
+        localStorage.setItem(
+          "accessToken",
+          JSON.stringify(userCredential.accessToken)
+        );
+      }
+
       window.location.href = "../../Home/index.html";
     })
     .catch((error) => console.log(error));
