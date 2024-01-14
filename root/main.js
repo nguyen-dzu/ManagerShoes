@@ -6,6 +6,8 @@ import {
   ref,
   get,
   child,
+  update,
+  remove,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { WriteUser } from "./WriteUser.js";
 
@@ -26,67 +28,90 @@ export const analytics = getAnalytics(app);
 
 const dbrt = getDatabase(app);
 const refDb = ref(dbrt);
-const form = document.querySelector(".form_info");
-const inputSearch = document.querySelector(".search_user");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  writeUserData(e.target);
-});
+const list_name_user = document.querySelector(".list_name_user");
+const body_content_table = document.querySelector(".body_content_table");
 
-const writeUserData = (form) => {
-  const user = {
-    id: form.id.value,
-    name: form.fullName.value,
-    email: form.email.value,
-    phoneNumber: form.phoneNumber.value,
-    age: form.age.value,
-  };
-
-  try {
-    set(ref(dbrt, `user/${user.id}`), user);
-    // const userForm = new WriteUser();
-    // userForm.WriteUser(user, dbrt, ref, set);
-
-    alert("Success");
-
-    form.id.value = "";
-    form.fullName.value = "";
-    form.email.value = "";
-    form.phoneNumber.value = "";
-    form.age.value = "";
-  } catch (error) {
-    alert(error);
-  }
+const editUser = (id) => {
+  set(ref(dbrt, "user/" + id), {
+    name: "Tran Van A",
+    email: "a@gmail.com",
+    phone_number: "0123456789",
+    age: 20,
+    id: id,
+  })
+    .then(() => {
+      console.log("Edit succeeded.");
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log("Edit failed: " + error.message);
+    });
 };
 
-const readUserData = async () => {
-  try {
-    const snapshot = await get(refDb, "user");
-    if (snapshot.exists()) {
-      const { user } = snapshot.val();
-      console.log(user);
-    } else {
-      console.log("No data available");
-    }
-  } catch (error) {
-    console.log(error);
-  }
+const deleteUser = (id) => {
+  remove(ref(dbrt, `user/${id}`))
+    .then(() => {
+      console.log("Remove succeeded.");
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.log("Remove failed: " + error.message);
+    });
 };
 
-inputSearch.addEventListener("change", (e) => {
-  const id = e.target.value;
-  try {
-    get(child(refDb, `user/${id}`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot.val());
-        } else {
-          alert("Not found");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  } catch (error) {}
-});
+const getListUser = () => {
+  get(child(refDb, `user/`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const listUser = Object.values(data);
+        listUser.forEach((item) => {
+          const valueFullName = document.createElement("td");
+          const fullName = document.createElement("tr");
+
+          const bodyContentTable = document.createElement("tr");
+          const valueEmail = document.createElement("td");
+          const valuePhone = document.createElement("td");
+          const valueAge = document.createElement("td");
+          const containerButton = document.createElement("td");
+
+          containerButton.style =
+            "display: flex; justify-content: space-around; align-items: center;";
+          const btnDelete = document.createElement("button");
+          const btnEdit = document.createElement("button");
+
+          btnEdit.addEventListener("click", () => editUser(item.id));
+
+          btnDelete.addEventListener("click", () => deleteUser(item.id));
+
+          btnDelete.innerHTML = "Delete";
+          btnEdit.innerHTML = "Edit";
+
+          valueFullName.innerHTML = item.name;
+          valueEmail.innerHTML = item.email;
+          valuePhone.innerHTML = item.phone_number;
+          valueAge.innerHTML = item.age;
+
+          fullName.appendChild(valueFullName);
+
+          containerButton.appendChild(btnEdit);
+          containerButton.appendChild(btnDelete);
+
+          bodyContentTable.appendChild(valueEmail);
+          bodyContentTable.appendChild(valuePhone);
+          bodyContentTable.appendChild(valueAge);
+          bodyContentTable.appendChild(containerButton);
+
+          body_content_table.appendChild(bodyContentTable);
+          list_name_user.appendChild(fullName);
+        });
+      } else {
+        console.log("Noßdata available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+getListUser();

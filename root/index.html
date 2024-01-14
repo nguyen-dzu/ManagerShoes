@@ -2,28 +2,68 @@
 <html lang="en">
 
 <head>
+    <title>Table V05</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Shoes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="./style-css/main.css">
+    <link rel="stylesheet" type="text/css" href="./style-css/util.css">
+    <link rel="stylesheet" type="text/css" href="./style-css/animate.css">
     <link rel="stylesheet" href="global-style.css">
-    <link rel="stylesheet" href="variable.css">
     <link rel="stylesheet" href="style.css">
+    <meta name="robots" content="noindex, follow">
+
 </head>
 
 <body>
-    <form class="form_info">
-        <!-- id: unique: độc nhất và không được trùng. -->
-        <input placeholder="Nhập Vào Id" required type="text" name="id" class="id">
-        <input placeholder="Nhập Vào FullName" type="text" name="fullName" class="fullName">
-        <input placeholder="Nhập Vào Email" type="email" name="email" class="email">
-        <input placeholder="Nhập Vào Phone Number" type="text" name="phoneNumber" class="phoneNumber">
-        <input placeholder="Nhập Vào Age" type="number" name="age" class="age">
+    <div class="limiter">
+        <div class="container-table100">
+            <div class="wrap-table100">
+                <div class="table100 ver1">
+                    <div style="border-right: 1px solid gray;" class="table100-firstcol">
+                        <table>
+                            <thead>
+                                <tr class="row100 head">
+                                    <th class="cell100 column1">Full Name</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list_name_user">
 
-        <button type="submit">Submit</button>
-    </form>
-    <input placeholder="search" type="text" type="search" class="search_user">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="wrap-table100-nextcols js-pscroll">
+                        <div class="table100-nextcols">
+                            <table>
+                                <thead>
+                                    <tr class="row100 head">
+                                        <th class="cell100 column2">Email</th>
+                                        <th class="cell100 column3">Age</th>
+                                        <th class="cell100 column4">Phone Number</th>
+                                        <th class="cell100 column5">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="body_content_table">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal">
+        <form class="form_edit_user">
+            <input type="text" name="name" id="name" class="form-control" placeholder="Full Name">
+            <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+            <input type="number" name="age" id="age" class="form-control" placeholder="Age">
+            <input type="number" name="phone" id="phone" class="form-control" placeholder="Phone Number">
+        </form>
+    </div> -->
+
     <script type="module" src="main.js"></script>
-
 </body>
 
 </html>
